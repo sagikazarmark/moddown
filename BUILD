@@ -25,4 +25,5 @@ sh_cmd(
         "@linux_amd64//:package",
         "@darwin_amd64//:package",
     ],
+    labels = ["dist"],
 )
