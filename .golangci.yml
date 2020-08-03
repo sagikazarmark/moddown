@@ -1,0 +1,78 @@
+run:
+    skip-dirs:
+        - .gen
+        - .generated
+        - plz-out
+
+    skip-files:
+        - ".*_gen\\.go$"
+        - "^zz_generated\\..*\\.go$"
+
+linters-settings:
+    golint:
+        min-confidence: 0.1
+    goimports:
+        local-prefixes: github.com/sagikazarmark/moddown
+
+linters:
+    disable-all: true
+    enable:
+        - bodyclose
+        - deadcode
+        - dogsled
+        - dupl
+        - errcheck
+        - exhaustive
+        - exportloopref
+        - gci
+        - gochecknoglobals
+        - gochecknoinits
+        - gocognit
+        - goconst
+        - gocritic
+        - gocyclo
+        - godot
+        - gofmt
+        - gofumpt
+        - goimports
+        - golint
+        - goprintffuncname
+        - gosec
+        - gosimple
+        - govet
+        - ineffassign
+        - lll
+        - megacheck
+        - misspell
+        - nakedret
+        - nlreturn
+        - nolintlint
+        - prealloc
+        - rowserrcheck
+        - scopelint
+        - sqlclosecheck
+        - staticcheck
+        - structcheck
+        - stylecheck
+        - typecheck
+        - unconvert
+        - unparam
+        - unused
+        - varcheck
+        - whitespace
+
+        # unused
+        # - depguard
+        # - gomodguard
+
+        # don't enable:
+        # - asciicheck
+        # - funlen
+        # - godox
+        # - goerr113
+        # - gomnd
+        # - interfacer
+        # - maligned
+        # - nestif
+        # - testpackage
+        # - wsl

@@ -26,6 +26,7 @@ type Module struct {
 	GoModSum string // checksum for go.mod (as in go.sum)
 }
 
+// nolint: gochecknoglobals
 var (
 	dest = flag.String("dest", "", "destination directory")
 	sum  = flag.String("sum", "", "hash of module contents")
@@ -43,6 +44,7 @@ func main() {
 
 	var buf, bufErr bytes.Buffer
 
+	// nolint: gosec
 	cmd := exec.Command(locateGoBinary(), "mod", "download", "-x", "-modcacherw", "-json", flag.Arg(0))
 	cmd.Stdout = &buf
 	cmd.Stderr = io.MultiWriter(os.Stderr, &bufErr)
@@ -108,7 +110,7 @@ func locateGoBinary() string {
 	return goCmd
 }
 
-// copied from fetch_repo source
+// copyTree is based on fetch_repo source.
 func copyTree(destRoot, srcRoot string) error {
 	return filepath.Walk(srcRoot, func(src string, info os.FileInfo, e error) (err error) {
 		if e != nil {
@@ -125,7 +127,7 @@ func copyTree(destRoot, srcRoot string) error {
 
 		if info.IsDir() {
 			return os.Mkdir(dest, 0777)
-		} else {
+		} else { // nolint: golint
 			r, err := os.Open(src)
 			if err != nil {
 				return err
@@ -141,6 +143,7 @@ func copyTree(destRoot, srcRoot string) error {
 				}
 			}()
 			_, err = io.Copy(w, r)
+
 			return err
 		}
 	})
