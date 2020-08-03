@@ -15,7 +15,7 @@ so it requires at least Go 1.14.
 
 1. Clone the repository
 1. Make changes on a new branch
-1. Run `./pleasew build`
+1. Run `./pleasew build --exclude dist`
 1. Commit, push and open PR
 
 
