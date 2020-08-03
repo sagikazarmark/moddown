@@ -19,7 +19,7 @@ tarball(
 
 sh_cmd(
     name = "publish",
-    cmd = "$(out_location ///pleasings2//tools/misc:hub) release create -a $(out_location @linux_amd64//:package) -a $(out_location @darwin_amd64//:package) $@",
+    cmd = "$(out_location ///pleasings2//tools/misc:hub) release create -a $(out_location @linux_amd64//:package) -a $(out_location @darwin_amd64//:package) \\\$@",
     deps = [
         "///pleasings2//tools/misc:hub",
         "@linux_amd64//:package",
