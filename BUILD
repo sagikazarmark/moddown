@@ -1,7 +1,7 @@
 github_repo(
     name = "pleasings2",
     repo = "sagikazarmark/mypleasings",
-    revision = "e1e9715ea1a22991fdef2effccee87e05f4b756f",
+    revision = "e4cc66bc0cd5b2bc86fc9bd058319a5c864c4261",
 )
 
 go_binary(
@@ -17,11 +17,11 @@ tarball(
     labels = ["dist"],
 )
 
-sh_cmd(
+subinclude("///pleasings2//github")
+
+github_release(
     name = "publish",
-    cmd = "$(out_location ///pleasings2//tools/misc:hub) release create -a $(out_location @linux_amd64//:package) -a $(out_location @darwin_amd64//:package) \\\$@",
-    deps = [
-        "///pleasings2//tools/misc:hub",
+    assets = [
         "@linux_amd64//:package",
         "@darwin_amd64//:package",
     ],

@@ -5,4 +5,5 @@ version = 15.0.0
 importpath = github.com/sagikazarmark/moddown
 
 [buildconfig]
+hub-tool = "///pleasings2//tools/github:hub"
 hub-version = 2.14.2
