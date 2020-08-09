@@ -30,3 +30,5 @@ jobs:
 
       - name: Publish
         run: ./pleasew publish -m "${{ steps.get_version.outputs.tag }}" ${{ steps.get_version.outputs.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
