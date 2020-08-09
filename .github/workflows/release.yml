@@ -16,11 +16,10 @@ jobs:
         with:
           go-version: 1.14
 
-      - name: Create cache dir
-        run: mkdir -p $HOME/.cache
-
-      - name: Compile stdlib
-        run: sudo go install -v std
+      - name: Compile Go stdlib for Darwin
+        run: go install -v std
+        env:
+          GOOS: darwin
 
       - name: Checkout code
         uses: actions/checkout@v2
@@ -28,9 +27,6 @@ jobs:
       - name: Get the version
         id: get_version
         run: echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
-
-      - name: Build
-        run: ./pleasew build //...
 
       - name: Publish
         run: ./pleasew publish -m "${{ steps.get_version.outputs.tag }}" ${{ steps.get_version.outputs.tag }}
