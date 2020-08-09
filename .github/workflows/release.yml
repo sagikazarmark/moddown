@@ -16,6 +16,9 @@ jobs:
         with:
           go-version: 1.14
 
+      - name: Compile stdlib
+        run: sudo go install -v std
+
       - name: Checkout code
         uses: actions/checkout@v2
 
