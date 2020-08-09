@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"flag"
+	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -28,8 +30,10 @@ type Module struct {
 
 // nolint: gochecknoglobals
 var (
-	dest = flag.String("dest", "", "destination directory")
-	sum  = flag.String("sum", "", "hash of module contents")
+	dest    = flag.String("dest", "", "destination directory")
+	sum     = flag.String("sum", "", "hash of module contents")
+	file    = flag.String("f", "", "module download file")
+	verbose = flag.Bool("v", false, "enable verbose mode")
 )
 
 func main() {
@@ -38,48 +42,48 @@ func main() {
 
 	flag.Parse()
 
-	if flag.NArg() != 1 {
-		log.Fatalf("expected a single argument, got %d", flag.NArg())
+	if *file == "" && flag.NArg() != 1 {
+		log.Fatal("expected module info or a module to download")
 	}
 
-	var buf, bufErr bytes.Buffer
+	var moduleContent []byte
 
-	// nolint: gosec
-	cmd := exec.Command(locateGoBinary(), "mod", "download", "-x", "-modcacherw", "-json", flag.Arg(0))
-	cmd.Stdout = &buf
-	cmd.Stderr = io.MultiWriter(os.Stderr, &bufErr)
+	// nolint: gocritic // if-else chain is more expressive
+	if *file == "" {
+		var err error
 
-	err := cmd.Run()
-	if err != nil { // Check if the process exited unexpectedly
-		if _, ok := err.(*exec.ExitError); !ok {
-			if bufErr.Len() > 0 {
-				log.Fatalf("%s %s: %s", cmd.Path, strings.Join(cmd.Args, " "), bufErr.Bytes())
-			} else {
-				log.Fatalf("%s %s: %v", cmd.Path, strings.Join(cmd.Args, " "), err)
-			}
+		moduleContent, err = downloadModule(flag.Arg(0), *verbose)
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else if *file == "-" {
+		var err error
+
+		moduleContent, err = ioutil.ReadAll(os.Stdin)
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		var err error
+
+		moduleContent, err = ioutil.ReadFile(*file)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 
 	var module Module
 
 	// Parse the JSON output
-	if err := json.Unmarshal(buf.Bytes(), &module); err != nil {
-		if bufErr.Len() > 0 {
-			log.Fatalf("%s %s: %s", cmd.Path, strings.Join(cmd.Args, " "), bufErr.Bytes())
-		} else {
-			log.Fatalf("%s %s: %v", cmd.Path, strings.Join(cmd.Args, " "), err)
-		}
+	if err := json.Unmarshal(moduleContent, &module); err != nil {
+		log.Fatalf("parsing module: %v", err)
 	}
 
 	if module.Error != "" {
 		log.Fatal(module.Error)
 	}
 
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	if sum != nil && module.Sum != *sum {
+	if *sum != "" && module.Sum != *sum {
 		log.Fatalf("downloaded module with sum %s; expected sum %s", module.Sum, *sum)
 	}
 
@@ -89,6 +93,28 @@ func main() {
 			log.Fatal(err)
 		}
 	}
+}
+
+func downloadModule(mod string, verbose bool) ([]byte, error) {
+	var buf, bufErr bytes.Buffer
+
+	// nolint: gosec
+	cmd := exec.Command(locateGoBinary(), "mod", "download", "-x", "-modcacherw", "-json", mod)
+	cmd.Stdout = &buf
+	cmd.Stderr = io.MultiWriter(os.Stderr, &bufErr)
+
+	if verbose {
+		log.Printf("executing %s with args %q", cmd.Path, strings.Join(cmd.Args, " "))
+	}
+
+	err := cmd.Run()
+	if err != nil { // Check if the process exited unexpectedly
+		if _, ok := err.(*exec.ExitError); !ok {
+			return nil, fmt.Errorf("%s %s: %v", cmd.Path, strings.Join(cmd.Args, " "), err)
+		}
+	}
+
+	return buf.Bytes(), nil
 }
 
 func locateGoBinary() string {
