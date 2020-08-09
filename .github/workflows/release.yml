@@ -23,5 +23,8 @@ jobs:
         id: get_version
         run: echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
 
+      - name: Build
+        run: ./pleasew build //...
+
       - name: Publish
         run: ./pleasew publish -m "${{ steps.get_version.outputs.tag }}" ${{ steps.get_version.outputs.tag }}
