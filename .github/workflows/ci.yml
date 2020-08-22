@@ -22,6 +22,9 @@ jobs:
         env:
           GOOS: darwin
 
+      - name: Set Please overrides
+        run: echo "::set-env name=PLZ_OVERRIDES::go.goroot:$GOROOT"
+
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -29,7 +32,7 @@ jobs:
         run: ./pleasew run :goroot
 
       - name: Build
-        run: ./pleasew build -o go.goroot:/opt/hostedtoolcache/go/1.15.0/x64 //...
+        run: ./pleasew build //...
 
       - name: Test
         run: ./pleasew test //...
