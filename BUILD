@@ -51,3 +51,8 @@ github_release(
     ],
     labels = ["dist"],
 )
+
+sh_cmd(
+    name = "goroot",
+    cmd = "go env GOROOT",
+)
