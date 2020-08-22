@@ -22,14 +22,18 @@ jobs:
         env:
           GOOS: darwin
 
+      # As of Go 1.15 GOROOT is not detected properly
+      - name: Set Please overrides
+        run: echo "::set-env name=PLZ_OVERRIDES::go.goroot:$GOROOT"
+
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Build
-        run: ./pleasew build //...
+        run: ./pleasew build -p //...
 
       - name: Test
-        run: ./pleasew test //...
+        run: ./pleasew test -p //...
 
       - name: Save Please log output
         uses: actions/upload-artifact@v1
