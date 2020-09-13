@@ -1,14 +1,10 @@
 run:
     skip-dirs:
-        - .gen
-        - .generated
         - plz-out
 
-    skip-files:
-        - ".*_gen\\.go$"
-        - "^zz_generated\\..*\\.go$"
-
 linters-settings:
+    gci:
+        local-prefixes: github.com/sagikazarmark/moddown
     golint:
         min-confidence: 0.1
     goimports:
@@ -42,10 +38,10 @@ linters:
         - govet
         - ineffassign
         - lll
-        - megacheck
         - misspell
         - nakedret
         - nlreturn
+        - noctx
         - nolintlint
         - prealloc
         - rowserrcheck
@@ -63,6 +59,7 @@ linters:
 
         # unused
         # - depguard
+        # - goheader
         # - gomodguard
 
         # don't enable:
