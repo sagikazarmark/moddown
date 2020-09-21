@@ -1,7 +1,7 @@
 github_repo(
     name = "pleasings2",
     repo = "sagikazarmark/mypleasings",
-    revision = "9e61baa2d78b48c14ceaa307d811dc3925fe5c7d",
+    revision = "69b993a9ab5a23cf1fc2ec89a1f41595daa0bf47",
 )
 
 go_binary(
