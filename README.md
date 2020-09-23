@@ -40,7 +40,10 @@ Last, but not least: you can enable verbose logging with `-v`.
 
 1. Clone the repository
 1. Make changes on a new branch
-1. Run `./pleasew build --exclude dist`
+1. Run
+    - `./pleasew build`
+    - `./pleasew lint`
+    - `./pleasew test`
 1. Commit, push and open PR
 
 
