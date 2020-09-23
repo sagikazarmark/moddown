@@ -44,6 +44,7 @@ Last, but not least: you can enable verbose logging with `-v`.
     - `./pleasew build`
     - `./pleasew lint`
     - `./pleasew test`
+    - `./pleasew gotest`
 1. Commit, push and open PR
 
 
