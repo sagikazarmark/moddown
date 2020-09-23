@@ -9,6 +9,9 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
+    env:
+      GOFLAGS: -mod=readonly
+      PLZ_ARGS: -p
 
     steps:
       - name: Set up Go
@@ -21,9 +24,8 @@ jobs:
         env:
           GOOS: darwin
 
-      # As of Go 1.15 GOROOT is not detected properly
       - name: Set Please overrides
-        run: echo "::set-env name=PLZ_OVERRIDES::go.goroot:$GOROOT"
+        run: echo "::set-env name=PLZ_OVERRIDES::build.path:$PATH"
 
       - name: Checkout code
         uses: actions/checkout@v2
@@ -33,7 +35,7 @@ jobs:
         run: echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
 
       - name: Publish
-        run: ./pleasew -p publish -m "${{ steps.get_version.outputs.tag }}" ${{ steps.get_version.outputs.tag }}
+        run: ./pleasew $PLZ_ARGS publish -m "${{ steps.get_version.outputs.tag }}" ${{ steps.get_version.outputs.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
