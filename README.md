@@ -38,14 +38,17 @@ Last, but not least: you can enable verbose logging with `-v`.
 
 ## Development
 
+Contributions are welcome! :)
+
 1. Clone the repository
 1. Make changes on a new branch
-1. Run
-    - `./pleasew build`
-    - `./pleasew lint`
-    - `./pleasew test`
-    - `./pleasew gotest`
-1. Commit, push and open PR
+1. Run the test suite:
+    ```bash
+    ./pleasew build
+    ./pleasew test
+    ./pleasew lint
+    ```
+1. Commit, push and open a PR
 
 
 ## License
