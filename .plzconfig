@@ -1,12 +1,11 @@
 [please]
-version = 15.4.0
+version = 15.5.0
 
 [go]
 importpath = github.com/sagikazarmark/moddown
 
 [buildconfig]
 golangci-lint-version = 1.31.0
-hub-version = 2.14.2
 
 [alias "lint"]
 desc = Runs linters for this repo
