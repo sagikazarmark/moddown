@@ -29,8 +29,6 @@ jobs:
 
       - name: Set up Please
         uses: sagikazarmark/setup-please-action@v0
-        with:
-          save-logs: 'true'
 
       - name: Build
         run: plz build //...
@@ -55,8 +53,6 @@ jobs:
 
       - name: Set up Please
         uses: sagikazarmark/setup-please-action@v0
-        with:
-          save-logs: 'true'
 
       - name: Lint
         run: plz lint
@@ -83,8 +79,6 @@ jobs:
 
       - name: Set up Please
         uses: sagikazarmark/setup-please-action@v0
-        with:
-          save-logs: 'true'
 
       - name: Build
         run: plz build :artifacts
