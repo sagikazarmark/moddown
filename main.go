@@ -153,7 +153,7 @@ func copyTree(destRoot, srcRoot string) error {
 
 		if info.IsDir() {
 			return os.Mkdir(dest, 0777)
-		} else { // nolint: golint
+		} else { // nolint: golint, revive
 			r, err := os.Open(src)
 			if err != nil {
 				return err

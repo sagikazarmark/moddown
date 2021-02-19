@@ -5,10 +5,10 @@ run:
 linters-settings:
     gci:
         local-prefixes: github.com/sagikazarmark/moddown
-    golint:
-        min-confidence: 0.1
     goimports:
         local-prefixes: github.com/sagikazarmark/moddown
+    golint:
+        min-confidence: 0
 
 linters:
     disable-all: true
@@ -36,20 +36,26 @@ linters:
         - gosec
         - gosimple
         - govet
+        - ifshort
         - ineffassign
         - lll
+        - makezero
         - misspell
         - nakedret
         - nlreturn
         - noctx
         - nolintlint
         - prealloc
+        - predeclared
+        - revive
         - rowserrcheck
         - scopelint
         - sqlclosecheck
         - staticcheck
         - structcheck
         - stylecheck
+        - thelper
+        - tparallel
         - typecheck
         - unconvert
         - unparam
@@ -64,6 +70,8 @@ linters:
 
         # don't enable:
         # - asciicheck
+        # - exhaustivestruct
+        # - forbidigo
         # - funlen
         # - godox
         # - goerr113
@@ -71,5 +79,7 @@ linters:
         # - interfacer
         # - maligned
         # - nestif
+        # - paralleltest
         # - testpackage
+        # - wrapcheck
         # - wsl
