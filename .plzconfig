@@ -1,12 +1,20 @@
 [please]
-version = 15.5.0
+version = 15.16.0
+
+[featureflags]
+PleaseGoInstall = true
 
 [go]
-importpath = github.com/sagikazarmark/moddown
+ImportPath = github.com/sagikazarmark/moddown
+GoTestRootCompat = True
 
 [buildconfig]
-golangci-lint-version = 1.31.0
+golangci-lint-version = 1.37.0
 
 [alias "lint"]
 desc = Runs linters for this repo
 cmd = run ///pleasings2//tools/go:golangci-lint -- run
+
+[alias "tidy"]
+desc = Tidy generates build targets for dependencies and makes sure that BUILD files are up-to-date.
+cmd = run //tools:plz-tidy
